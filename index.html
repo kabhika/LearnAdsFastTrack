@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <!--
+THESIS: The 40-station sprint is an express ride from never-run-an-ad
+  to first-client-campaign-live on both engines that matter — Google Ads
+  and Meta/Instagram; the dashboard is its station wall map. Refuses the
+  metric-card dashboard grid.
+  OWN-WORLD: Espresso #1d1508 ground with mustard gold (inherited from the
+  Mastery line) while the floating palette switcher decides the identity;
+  cream porcelain, seven enamel line inks, thin cream strokes, pill
+  controls, Space Grotesk caps + Inter body.
+  STORY: Rider checks the board, sees NOW BOARDING, rides the sprint pace
+  (six stations a day by default), watches the cream fill fast toward
+  campaigns live.
+  FIRST VIEWPORT: Brand roundel, service board strip, NOW BOARDING card
+  with mustard action, then the Network Map drawing itself in.
+  FORM: Ads Fast-Track Transit Diagram, fifth line forked from the shared
+  engine; the express sibling of the Ads Mastery marathon line.
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ads Fast-Track Line</title>
+  <meta name="description" content="Personal Google Ads + Meta/Instagram sprint curriculum as a transit map: never run an ad to first client campaign in a working week. 40 stations, ~45 minutes each, sprint pace, free first with paid flagged.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d1508'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23f4ead0' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='3.5' fill='%23e7002a'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="mural">
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="roundel" aria-hidden="true"><span class="roundel-core"></span></span>
+        <div class="brand-text">
+          <span class="brand-name">Ads Fast-Track Line</span>
+          <span class="brand-sub">Google + Meta in a working week &middot; sprint pace, six a day</span>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="theme-toggle" class="chip-btn" title="Toggle theme" aria-label="Toggle theme">Day map</button>
+        <button id="settings-toggle" class="chip-btn" title="Settings" aria-label="Settings">Service</button>
+      </div>
+    </header>
+
+    <!-- Service board -->
+    <section class="board" aria-label="Progress metrics">
+      <div class="board-cell">
+        <span class="b-label">Journey</span>
+        <span class="b-value" id="stat-pct">0%</span>
+        <div class="b-bar" aria-hidden="true"><div class="b-bar-fill" id="progress-bar"></div></div>
+      </div>
+      <div class="board-cell">
+        <span class="b-label">Stations</span>
+        <span class="b-value" id="stat-done">0/0</span>
+        <span class="b-meta">~45 min each</span>
+      </div>
+      <div class="board-cell">
+        <span class="b-label">Streak</span>
+        <span class="b-value b-green" id="stat-streak">0</span>
+        <span class="b-meta">service days in a row</span>
+      </div>
+      <div class="board-cell">
+        <span class="b-label">Hours left</span>
+        <span class="b-value" id="stat-hours">0h</span>
+        <span class="b-meta">to the terminus</span>
+      </div>
+      <div class="board-cell">
+        <span class="b-label">Short term</span>
+        <span class="b-value" id="stat-short">0%</span>
+        <span class="b-meta">the sprint: live, tracked, reported</span>
+      </div>
+      <div class="board-cell">
+        <span class="b-label">Est arrival</span>
+        <span class="b-value b-value-sm" id="stat-finish">-</span>
+        <span class="b-meta">shifts as you ride</span>
+      </div>
+    </section>
+
+    <!-- Now boarding -->
+    <section class="panel today-panel">
+      <div class="panel-head">
+        <h2 class="panel-title">Now boarding</h2>
+        <span class="panel-meta"><span id="today-date"></span> &middot; <span id="today-slot"></span></span>
+      </div>
+      <div class="panel-body" id="today-body"></div>
+    </section>
+
+    <!-- Views -->
+    <nav class="viewnav" aria-label="Views">
+      <button class="tab active" data-panel="panel-timeline">Network map</button>
+      <button class="tab" data-panel="panel-schedule">Departures</button>
+      <button class="tab" data-panel="panel-tasks">All stations</button>
+    </nav>
+
+    <section id="panel-timeline" class="tab-panel active">
+      <div class="panel map-panel">
+        <div class="map-wrap" id="map-wrap"></div>
+      </div>
+      <div id="timeline-body"></div>
+    </section>
+
+    <section id="panel-schedule" class="tab-panel">
+      <div class="panel" id="schedule-body"></div>
+    </section>
+
+    <section id="panel-tasks" class="tab-panel">
+      <div id="tasks-body"></div>
+    </section>
+
+    <footer class="footnote">
+      <p>40 stations &middot; ~45 min each &middot; free first, paid flagged &middot; sprint pace 6 a day (adjust in Service) &middot; skipped days shift everything forward automatically.<br>
+      Progress is stored in this browser only. Export a backup from Service before clearing browser data.</p>
+    </footer>
+  </div>
+
+  <!-- Settings -->
+  <aside id="settings-panel" class="settings-panel" aria-label="Settings">
+    <div class="settings-head">
+      <h2>Service settings</h2>
+      <button id="settings-close" class="chip-btn" aria-label="Close settings">Close</button>
+    </div>
+
+    <div class="settings-section">
+      <h3>Service days</h3>
+      <div id="weekday-picker" class="weekday-picker"></div>
+      <p class="hint">Sprint week: keep all 7 on. Drop back after launch week. Changing this reflows every future date instantly.</p>
+    </div>
+
+    <div class="settings-section">
+      <h3>Departure time</h3>
+      <input type="time" id="time-input" class="time-input" value="21:00">
+      <p class="hint">Each day's riding block starts at this time.</p>
+    </div>
+
+    <div class="settings-section">
+      <h3>Sprint pace</h3>
+      <div id="pace-picker" class="weekday-picker"></div>
+      <p class="hint">Stations per service day. Default 6 finishes the sprint in a working week.</p>
+    </div>
+
+    <div class="settings-section">
+      <h3>Backup</h3>
+      <div class="settings-btn-row">
+        <button id="export-btn" class="btn btn-ghost btn-sm">Export JSON</button>
+        <label class="file-label btn btn-ghost btn-sm">Import JSON
+          <input type="file" id="import-input" accept="application/json">
+        </label>
+      </div>
+      <p class="hint">Progress lives in this browser only. Export before switching browsers or machines.</p>
+    </div>
+
+    <div class="settings-danger">
+      <button id="reset-btn" class="btn btn-danger btn-sm">Reset all progress</button>
+      <p class="hint">Deletes every completion and note on this device.</p>
+    </div>
+  </aside>
+
+  <style id="palette-override"></style>
+  <div id="palette-bar">
+    <span class="pb-title">Express palette</span>
+    <button data-theme-id="espresso"><span class="sw" style="background:linear-gradient(135deg,#1d1508 50%,#dd9420 50%)"></span>Espresso (current)</button>
+    <button data-theme-id="teal"><span class="sw" style="background:linear-gradient(135deg,#05242e 50%,#22d3ee 50%)"></span>Teal + Cyan</button>
+    <button data-theme-id="forest"><span class="sw" style="background:linear-gradient(135deg,#0d1d12 50%,#a3e635 50%)"></span>Forest + Lime</button>
+    <button data-theme-id="ember"><span class="sw" style="background:linear-gradient(135deg,#1c1613 50%,#d97706 50%)"></span>Charcoal + Copper</button>
+    <button data-theme-id="scarlet"><span class="sw" style="background:linear-gradient(135deg,#17181c 50%,#ef4444 50%)"></span>Graphite + Scarlet</button>
+    <button data-theme-id="rose"><span class="sw" style="background:linear-gradient(135deg,#211019 50%,#fb7185 50%)"></span>Plum + Rose</button>
+    <button data-theme-id="ivory"><span class="sw" style="background:linear-gradient(135deg,#f2efe6 50%,#3b5bdb 50%)"></span>Ivory + Ink (light)</button>
+  </div>
+  <script>
+  (function () {
+    const P = {
+      espresso: { theme: null,
+        dark: { ground: "#1d1508", porcelain: "#f4ead0", t2: "#d3c5a0", t3: "#9e8e67", acc: "#dd9420", wash: "rgba(221,148,32,0.12)" },
+        light: { ground: "#efe6cd", acc: "#926215", wash: "rgba(146,98,21,0.10)" } },
+      teal: { theme: "dark",
+        dark: { ground: "#05242e", porcelain: "#e7f4f6", t2: "#a8c8cf", t3: "#6f95a0", acc: "#22d3ee", wash: "rgba(34,211,238,0.12)" },
+        light: { ground: "#e3eef0", acc: "#0e7490", wash: "rgba(14,116,144,0.10)" } },
+      forest: { theme: "dark",
+        dark: { ground: "#0d1d12", porcelain: "#ecf5ec", t2: "#b0ccb4", t3: "#77977e", acc: "#a3e635", wash: "rgba(163,230,53,0.12)" },
+        light: { ground: "#e9f0e7", acc: "#4d7c0f", wash: "rgba(77,124,15,0.10)" } },
+      ember: { theme: "dark",
+        dark: { ground: "#1c1613", porcelain: "#f6efe8", t2: "#d2c0b0", t3: "#9a8878", acc: "#d97706", wash: "rgba(217,119,6,0.12)" },
+        light: { ground: "#f3ece4", acc: "#b45309", wash: "rgba(180,83,9,0.10)" } },
+      scarlet: { theme: "dark",
+        dark: { ground: "#17181c", porcelain: "#f2f3f5", t2: "#c0c4cd", t3: "#868c99", acc: "#ef4444", wash: "rgba(239,68,68,0.12)" },
+        light: { ground: "#eceef1", acc: "#b91c1c", wash: "rgba(185,28,28,0.10)" } },
+      rose: { theme: "dark",
+        dark: { ground: "#211019", porcelain: "#f8ecf2", t2: "#d5b8c8", t3: "#9c7a8e", acc: "#fb7185", wash: "rgba(251,113,133,0.12)" },
+        light: { ground: "#f3e8ee", acc: "#be123c", wash: "rgba(190,18,60,0.10)" } },
+      ivory: { theme: "light",
+        dark: { ground: "#1b2030", porcelain: "#edf0fa", t2: "#b6c0dd", t3: "#7e8aad", acc: "#7c96e8", wash: "rgba(124,150,232,0.12)" },
+        light: { ground: "#f2efe6", acc: "#3b5bdb", wash: "rgba(59,91,219,0.10)" } }
+    };
+    const styleEl = document.getElementById("palette-override");
+    function apply(id, setTheme) {
+      const p = P[id];
+      styleEl.textContent =
+        ':root[data-theme="dark"]{--ground:' + p.dark.ground + ";--porcelain:" + p.dark.porcelain +
+        ";--text-2:" + p.dark.t2 + ";--text-3:" + p.dark.t3 + ";--mustard:" + p.dark.acc + ";--wash-mustard:" + p.dark.wash + "}" +
+        ':root[data-theme="light"]{--ground:' + p.light.ground + ";--mustard:" + p.light.acc + ";--wash-mustard:" + p.light.wash + "}";
+      if (setTheme && p.theme) document.documentElement.setAttribute("data-theme", p.theme);
+      document.querySelectorAll("#palette-bar button").forEach(function (b) {
+        b.classList.toggle("pb-active", b.dataset.themeId === id);
+      });
+    }
+    const bar = document.getElementById("palette-bar");
+    bar.addEventListener("click", function (e) {
+      const btn = e.target.closest("button");
+      if (btn) {
+        apply(btn.dataset.themeId, true);
+        try { localStorage.setItem("adsfast_palette_choice", btn.dataset.themeId); } catch (err) {}
+      }
+    });
+    let saved = null;
+    try { saved = localStorage.getItem("adsfast_palette_choice"); } catch (err) {}
+    apply(saved && P[saved] ? saved : "espresso", true);
+    const s = document.createElement("style");
+    s.textContent = "#palette-bar{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;align-items:center;padding:8px 12px;border-radius:999px;background:rgba(12,12,16,0.93);color:#eee;font:12px/1 system-ui,sans-serif;z-index:9999;box-shadow:0 6px 24px rgba(0,0,0,0.4);max-width:94vw;flex-wrap:wrap;justify-content:center}" +
+      "#palette-bar .pb-title{font-weight:700;letter-spacing:0.04em;text-transform:uppercase;font-size:10px;margin-right:4px;color:#999}" +
+      "#palette-bar button{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:transparent;color:#eee;cursor:pointer;font:inherit}" +
+      "#palette-bar button.pb-active{border-color:#fff;background:rgba(255,255,255,0.14)}" +
+      "#palette-bar .sw{width:14px;height:14px;border-radius:50%;flex:none;border:1px solid rgba(255,255,255,0.35)}";
+    document.head.appendChild(s);
+  })();
+  </script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
