@@ -815,5 +815,11 @@ renderAll();
   };
   const orig = window.renderAll;
   if (typeof orig === "function") window.renderAll = function () { orig.apply(this, arguments); post(); };
+  const params = new URLSearchParams(location.search);
+  if (params.get("relay") === "hub") {
+    location.replace("https://learn-paths-hub.vercel.app/#p=ads-fasttrack:" +
+      Object.keys(state.completions).length + "/" + TASKS.length + "&i=" + (params.get("i") || "0"));
+    return;
+  }
   post();
 })();
