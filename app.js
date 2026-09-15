@@ -794,3 +794,26 @@ renderAll();
   const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 5);
   setTimeout(() => { renderAll(); scheduleMidnightRefresh(); }, midnight - now);
 })();
+
+/* ---------- Learning Lines Hub beacon ----------
+   When this page is embedded in the Learning Lines Hub, report live
+   progress counts to the parent so the hub's snapshot stays true.
+   Never runs when the dashboard is visited directly. */
+(function () {
+  if (window.parent === window) return;
+  const post = () => {
+    try {
+      const phases = PHASES.map(p => {
+        const tasks = TASKS.filter(t => t.phase === p.id);
+        return { id: p.id, done: tasks.filter(t => state.completions[t.id]).length, total: tasks.length };
+      });
+      window.parent.postMessage(
+        { type: "line-progress", line: "ads-fasttrack", done: Object.keys(state.completions).length, total: TASKS.length, phases },
+        "*"
+      );
+    } catch (e) { /* the beacon must never break the app */ }
+  };
+  const orig = window.renderAll;
+  if (typeof orig === "function") window.renderAll = function () { orig.apply(this, arguments); post(); };
+  post();
+})();
