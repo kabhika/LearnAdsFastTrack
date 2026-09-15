@@ -3,7 +3,7 @@
    date; every pending task is re-assigned to upcoming active days on each
    render, so skipped days shift the whole plan forward automatically.
    Sprint pace: settings.perDay stations per active day (default 6).
-   Render layer: mustard transit diagram (see DESIGN.md). */
+   Render layer: paper-white infographic transit diagram (see DESIGN.md). */
 
 const LS_KEY = "ads_fasttrack_v1";
 const MIN_PER_STATION = 45; // sprint stations are shorter than the Mastery line's hour-long sessions
@@ -11,7 +11,7 @@ const MIN_PER_STATION = 45; // sprint stations are shorter than the Mastery line
 const DEFAULT_STATE = {
   completions: {},          // taskId -> { date: "YYYY-MM-DD" }
   notes: {},                // taskId -> string
-  theme: "dark",
+  theme: "light",
   settings: {
     activeDays: [0, 1, 2, 3, 4, 5, 6],   // sprint week: all 7 days (JS getDay: 0=Sun)
     startTime: "21:00",
