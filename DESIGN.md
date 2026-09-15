@@ -35,21 +35,27 @@ to billable first, then hands over at station 40.
 
 ## Palette
 
-**Spectrum Express** (his call, 2026-09-15, with a colorful-infographic
-reference image: "make this a multicolored this time"). The floating
-palette bar served its purpose and was stripped — the winner is baked.
-Neutral ink ground (#131418 dark / paper #f4f2ed light) so seven hues
-pop, and the phase line inks ARE the identity instead of a single
-accent: `--spectrum` gradient (phase order scarlet → cobalt → amber →
-green → magenta → sky → teal) under the header and above the footer, in
-the journey progress bar, the brand-name text, the roundel ring, the
-active tab underline and the favicon. Per-phase color does contextual
-work: the Now boarding route card washes in the current phase ink and
-its primary button takes that ink (dark scrim + porcelain text keeps
-contrast on every hue), All-stations phase groups carry a colored left
-edge, the six board cells get colored top rules and labels, and the
-seven weekday chips light up in seven inks. `--mustard` survives as a
-legacy var slot only. Dark and light both run the full spectrum.
+**Infographic white** (2026-09-15, second round: the first multicolor
+bake — saturated rainbow on dark ink — he called "whorehouse
+decoration"; the brief is his reference infographic's palette on a white
+ground). Colors were extracted programmatically from his reference image
+(canvas hue-bucketing), not eyeballed. Paper-white #f8f8f8 ground, dark
+ink #26333c text, and the reference's working set: rose #d95169, deep
+blue #366a91, sky #5eaecb, orange #ef9e4e, teal #4fb3ad (deepened from
+the sampled #7dd5d5 so white text holds), wine #973561, magenta #e83dac,
+coral #e97453; sand #e7cb99 / mint #96dad2 reserved as wash tones only.
+Phase order p1..p7: rose, blue, orange, teal, wine, sky, magenta.
+
+Structure kept from round one, toned down: spectrum hairline under the
+header, gradient journey bar, roundel ring and active-tab underline run
+the phase gradient; the Now boarding route card washes in the current
+phase ink and its primary button takes that ink (dark scrim + white
+text); board cells and weekday chips stay per-color. Removed: gradient
+brand-name text (solid ink now), footer spectrum rule (plain hairline).
+Default theme is LIGHT (night map = deep navy #132430 variant of the
+same palette). The old ink var names (--scarlet, --cobalt, --green,
+--amber, --magenta, --sky, --teal, --mustard) survive as legacy slots
+pointing at the reference hexes, so the engine needed no changes.
 
 ## Curriculum shape
 
