@@ -800,6 +800,12 @@ renderAll();
    progress counts to the parent so the hub's snapshot stays true.
    Never runs when the dashboard is visited directly. */
 (function () {
+  const params = new URLSearchParams(location.search);
+  if (params.get("relay") === "hub") {
+    location.replace("https://learn-paths-hub.vercel.app/#p=ads-fasttrack:" +
+      Object.keys(state.completions).length + "/" + TASKS.length + "&i=" + (params.get("i") || "0"));
+    return;
+  }
   if (window.parent === window) return;
   const post = () => {
     try {
@@ -815,11 +821,5 @@ renderAll();
   };
   const orig = window.renderAll;
   if (typeof orig === "function") window.renderAll = function () { orig.apply(this, arguments); post(); };
-  const params = new URLSearchParams(location.search);
-  if (params.get("relay") === "hub") {
-    location.replace("https://learn-paths-hub.vercel.app/#p=ads-fasttrack:" +
-      Object.keys(state.completions).length + "/" + TASKS.length + "&i=" + (params.get("i") || "0"));
-    return;
-  }
   post();
 })();
