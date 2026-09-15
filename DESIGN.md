@@ -35,14 +35,21 @@ to billable first, then hands over at station 40.
 
 ## Palette
 
-Ships on the parent's espresso + mustard while the floating palette
-switcher (ported from the Conduit palette-preview branch, ~70
-self-contained lines in index.html) decides the identity: espresso
-(current), teal+cyan, forest+lime, charcoal+copper, graphite+scarlet,
-plum+rose, ivory+ink light. Choice persists under
-`adsfast_palette_choice` (line-scoped, deliberately not the Conduit
-key). Once the pick lands, bake the winner into styles.css and strip the
-bar — same recipe as the Conduit apply-winner plan.
+**Spectrum Express** (his call, 2026-09-15, with a colorful-infographic
+reference image: "make this a multicolored this time"). The floating
+palette bar served its purpose and was stripped — the winner is baked.
+Neutral ink ground (#131418 dark / paper #f4f2ed light) so seven hues
+pop, and the phase line inks ARE the identity instead of a single
+accent: `--spectrum` gradient (phase order scarlet → cobalt → amber →
+green → magenta → sky → teal) under the header and above the footer, in
+the journey progress bar, the brand-name text, the roundel ring, the
+active tab underline and the favicon. Per-phase color does contextual
+work: the Now boarding route card washes in the current phase ink and
+its primary button takes that ink (dark scrim + porcelain text keeps
+contrast on every hue), All-stations phase groups carry a colored left
+edge, the six board cells get colored top rules and labels, and the
+seven weekday chips light up in seven inks. `--mustard` survives as a
+legacy var slot only. Dark and light both run the full spectrum.
 
 ## Curriculum shape
 
